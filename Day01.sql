@@ -5,10 +5,10 @@ create database nalan;
 
 -- DDL - DATA DEFINITION LANG.
 -- CREATE - TABLO OLUSTURMA
-CREATE TABLE ogrenciler
+CREATE TABLE ogrenciler5
 (
-ogrenci_no char(7),
-isim varchar(20),
+ogrenci_no char(7), --Uzunluğunu bildiğimiz stringler için char kullanırız.
+isim varchar(20),--Uzunluğunu bilmediğimiz stringlerde varchar kullanırız
 soyisim varchar(25),
 not_ort real,--Ondalıklı sayilar kullanılır(Double gibi)
 kayit_tarih date
