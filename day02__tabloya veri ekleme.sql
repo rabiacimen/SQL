@@ -281,7 +281,7 @@ DELETE FROM ogrenciler3 WHERE (id>126);
 SELECT id FROM ogrenciler3;
 
 -- id'si 123, 125 veya 126 olanları silelim.
-DELETE FROM ogrenciler3 WHERE id=123 and id=125 and id=126;-----------------------------SOR
+DELETE FROM ogrenciler3 WHERE id=123 and id=125 and id=126;-----------------------------SOR--------
 SELECT id FROM ogrenciler3;
 
 
