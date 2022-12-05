@@ -98,4 +98,3 @@ CONSTRAINT uni_ks UNIQUE(soyisim)
 
 
 
-
