@@ -42,12 +42,21 @@ INSERT INTO payments VALUES ('10449',         'December ',   '12',              
 select * from employee;
 select * from payments;
 --cevap:1
-select FirstName,LastName, 
-(select sum(Value_$)
- as toplam_tutar 
- from payments 
+select FirstName,LastName, (select sum(Value_$) as toplam_tutar  from payments 
  where employee.Employee_ID=payments.Employee_ID)
  from employee;
+ 
+ --2.yol
+ SELECT Employee.FirstName, Employee.LastName, SUM(Payments.Value) AS TotalEarnings
+FROM Employee
+INNER JOIN Payments ON Employee.EmployeeID = Payments.EmployeeID
+GROUP BY Employee.FirstName, Employee.LastName
+
+--3.yol
+Select FirstName,LastName ,(Select SUM(Value_$) from payments 
+Where Employee.Employee_ID=Payments.Employee_ID) 
+as toplam_tutar 
+from Employee
 --cevap:2
 
 SELECT* FROM employee WHERE FirstName LIKE 'J%';

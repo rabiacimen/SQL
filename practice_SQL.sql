@@ -271,14 +271,15 @@ select * from personel where id>='1003 'and id<='1005'
 
 
 -- D ile Y arasındaki personel bilgilerini listeleyiniz
-select * from personel where isim between  LIKE 'D%' and LIKE 'Y%' ----------------------------sor--------------------
+select * from personel where isim between 'D%' and 'Y%'  ----------------------------!!!!!--------------------
+select * from personel where isim  >'D%' and isim<'Y%'
+select * from personel WHERE isim  ~ '^[D-Y](.*)';
 
-
--- D ile Y arasında olmayan personel bilgilerini listeleyiniz     ----------------------------sor--------------------
-
+-- D ile Y arasında olmayan personel bilgilerini listeleyiniz     
+select * from personel where isim<'D%' or isim>'Y%'
 
 -- Maaşı 70000 ve ismi Sena olan personeli listeleyiniz
-select * from personel where =isim 'Sena' and maas=7000       ----------------------------sor--------------------
+select * from personel where isim ='Sena Beyaz'or maas=7000 ;      ----------------------------sor--------------------
 
 
 
@@ -318,15 +319,15 @@ select * from markalar22
 -- Çalisan sayisi 15.000’den cok olan markalarin isimlerini ve bu markada calisanlarin isimlerini ve 
 --maaşlarini listeleyin
 SELECT isim, maas, isyeri from calisanlar22
-where isyeri in (select marka_isim from markalar22 where calisan_sayisi>15000);--????????????????????
+where isyeri in (select marka_isim from markalar22 where calisan_sayisi>15000);
 
 
 -- marka_id’si 101’den büyük olan marka çalişanlarinin isim, maaş ve şehirlerini listeleyiniz
-select isim,maas,sehir  from calisanlar22 where marka_id>101 from markalar22 ------???????????????????
+select isim,maas,sehir  from calisanlar22 where isyeri in( select marka_isim from markalar where marka_id>101); ------???????????????????
 
 
 -- Ankara’da calisani olan markalarin marka id'lerini ve calisan sayilarini listeleyiniz.
-select marka_id, calisan_sayisi from markalar22  where isyeri in (select sehir='Ankara' from calisanlar22) ---hata
+select marka_id, calisan_sayisi from markalar22  where isyeri in (select sehir='Ankara' from calisanlar22); ---hata
 
 
 -- Her markanin id’sini, ismini ve toplam kaç şehirde bulunduğunu listeleyen bir SORGU yaziniz.
@@ -345,7 +346,80 @@ SELECT marka_isim, calisan_sayisi, (SELECT max(maas) FROM calisanlar WHERE marka
 (SELECT min(maas) FROM calisanlar WHERE marka_isim = isyeri) as min_maas
 FROM markalar
 
---............. devamını getir
+-----EXISTS
+CREATE TABLE mart
+(
+urun_id int,
+musteri_isim varchar(50), 
+urun_isim varchar(50)
+);
+INSERT INTO mart VALUES (10, 'Mark', 'Honda');
+INSERT INTO mart VALUES (20, 'John', 'Toyota');
+INSERT INTO mart VALUES (30, 'Amy', 'Ford');
+INSERT INTO mart VALUES (20, 'Mark', 'Toyota');
+INSERT INTO mart VALUES (10, 'Adam', 'Honda');
+INSERT INTO mart VALUES (40, 'John', 'Hyundai');
+INSERT INTO mart VALUES (20, 'Eddie', 'Toyota');
+
+CREATE TABLE nisan 
+(
+urun_id int ,
+musteri_isim varchar(50), 
+urun_isim varchar(50)
+);
+INSERT INTO nisan VALUES (10, 'Hasan', 'Honda');
+INSERT INTO nisan VALUES (10, 'Kemal', 'Honda');
+INSERT INTO nisan VALUES (20, 'Ayse', 'Toyota');
+INSERT INTO nisan VALUES (50, 'Yasar', 'Volvo');
+INSERT INTO nisan VALUES (20, 'Mine', 'Toyota');
+
+--MART VE NİSAN aylarında aynı URUN_ID ile satılan ürünlerin
+--URUN_ID’lerini listeleyen ve aynı zamanda bu ürünleri MART ayında alan
+--MUSTERI_ISIM 'lerini listeleyen bir sorgu yazınız.
+select urun_id,musteri_isim from mart where exists (select urun_id from nisan where mart.urun_id=nisan.urun_id );
+
+
+--Her iki ayda birden satılan ürünlerin URUN_ISIM'lerini ve bu ürünleri
+--NİSAN ayında satın alan MUSTERI_ISIM'lerini listeleyen bir sorgu yazınız.
+select urun_isim, musteri_isim from nisan where exists (select urun_isim from mart where mart.urun_isim=nisan.urun_isim);
+
+--Her iki ayda ortak satilmayan ürünlerin URUN_ISIM'lerini ve bu ürünleri
+--NİSAN ayında satın alan MUSTERI_ISIM'lerini listeleyen bir sorgu yazınız.
+select urun_isim,musteri_isim from nisan where not exists(select urun_isim from mart where mart.urun_isim=nisan.urun_isim);
+
+---UPDATE SET
+
+CREATE TABLE tedarikciler -- parent
+(
+vergi_no int PRIMARY KEY,
+firma_ismi VARCHAR(50),
+irtibat_ismi VARCHAR(50)
+);
+INSERT INTO tedarikciler VALUES (101, 'IBM', 'Kim Yon');
+INSERT INTO tedarikciler VALUES (102, 'Huawei', 'Çin Li');
+INSERT INTO tedarikciler VALUES (103, 'Erikson', 'Maki Tammen');
+INSERT INTO tedarikciler VALUES (104, 'Apple', 'Adam Eve');
+
+CREATE TABLE urunler -- child
+(
+ted_vergino int, 
+urun_id int, 
+urun_isim VARCHAR(50), 
+musteri_isim VARCHAR(50),
+CONSTRAINT fk_urunler FOREIGN KEY(ted_vergino) 
+REFERENCES tedarikciler(vergi_no)
+on delete cascade
+);
+
+INSERT INTO urunler VALUES(101, 1001,'Laptop', 'Ayşe Can');
+INSERT INTO urunler VALUES(102, 1002,'Phone', 'Fatma Aka');
+INSERT INTO urunler VALUES(102, 1003,'TV', 'Ramazan Öz');
+INSERT INTO urunler VALUES(102, 1004,'Laptop', 'Veli Han');
+INSERT INTO urunler VALUES(103, 1005,'Phone', 'Canan Ak');
+INSERT INTO urunler VALUES(104, 1006,'TV', 'Ali Bak');
+INSERT INTO urunler VALUES(104, 1007,'Phone', 'Aslan Yılmaz');
+
+
 
 *********************** *********************** *********************** *********************** ***********************
 --Practice 8: ***********************
