@@ -411,14 +411,30 @@ REFERENCES tedarikciler(vergi_no)
 on delete cascade
 );
 
-INSERT INTO urunler VALUES(101, 1001,'Laptop', 'Ayşe Can');
-INSERT INTO urunler VALUES(102, 1002,'Phone', 'Fatma Aka');
+INSERT INTO urunler VALUES(101, 1001, 'Laptop', 'Ayşe Can'); ---eklenmedi
+INSERT INTO urunler VALUES(102, 1002, 'Phone', 'Fatma Aka');
 INSERT INTO urunler VALUES(102, 1003,'TV', 'Ramazan Öz');
 INSERT INTO urunler VALUES(102, 1004,'Laptop', 'Veli Han');
 INSERT INTO urunler VALUES(103, 1005,'Phone', 'Canan Ak');
 INSERT INTO urunler VALUES(104, 1006,'TV', 'Ali Bak');
 INSERT INTO urunler VALUES(104, 1007,'Phone', 'Aslan Yılmaz');
 
+select * from urunler;
+select * from tedarikciler;
+-- vergi_no’su 102 olan tedarikcinin firma ismini 'Vestel' olarak güncelleyeniz
+
+---- vergi_no’su 101 olan tedarikçinin firma ismini 'casper' ve irtibat_ismi’ni 'Ali Veli' olarak güncelleyiniz.
+
+---- urunler tablosundaki 'Phone' değerlerini 'Telefon' olarak güncelleyiniz
+
+---- urunler tablosundaki urun_id değeri 1004'ten büyük olanların urun_id’sini 1 arttırın
+
+-- urunler tablosundaki tüm ürünlerin urun_id değerini ted_vergino sutun değerleri ile toplayarak güncelleyiniz
+
+--* urunler tablosundan Ali Bak’in aldigi urunun ismini, tedarikci tablosunda irtibat_ismi 
+--'Adam Eve' olan firmanın ismi (firma_ismi) ile degistiriniz
+
+--Urunler tablosunda laptop satin alan musterilerin ismini, firma_ismi Apple’in irtibat_isim'i ile degistirin
 
 
 *********************** *********************** *********************** *********************** ***********************
@@ -465,6 +481,288 @@ select e_mail,ise_baslama_tarihi from personelim where maas>5000
 
 --Maasi 5000’den cok veya 7000’den az olanlarin tum bilgilerini listeleyin,
 select * from personelim where maas>5000 or maas>7000
+
+
+---IS NULL
+CREATE TABLE insanlar3
+(
+ssn char(9),
+isim varchar(50), 
+adres varchar(50)
+);
+
+INSERT INTO insanlar3 VALUES(123456789, 'Ali Can', 'Istanbul'); 
+INSERT INTO insanlar3 VALUES(234567890, 'Veli Cem', 'Ankara'); 
+INSERT INTO insanlar3 VALUES(345678901, 'Mine Bulut', 'Izmir'); 
+INSERT INTO insanlar3 (ssn, adres) VALUES(456789012, 'Bursa'); 
+INSERT INTO insanlar3(ssn, adres) VALUES(567890123, 'Denizli');
+
+SELECT *FROM insanlar3 WHERE isim IS NULL;
+SELECT *FROM insanlar3 WHERE isim IS Not NULL;
+UPDATE insanlar3 SET isim = 'Isim Girilmemis' WHERE isim IS NULL;
+
+
+-----ORDER BY CLAUSE
+CREATE TABLE insanlar4
+(
+ssn char(9),
+isim varchar(50),
+soyisim varchar(50), adres
+varchar(50)
+);
+
+INSERT INTO insanlar4 VALUES(123456789, 'Ali','Can', 'Istanbul');
+INSERT INTO insanlar4 VALUES(234567890, 'Veli','Cem', 'Ankara'); 
+INSERT INTO insanlar4 VALUES(345678901, 'Mine','Bulut', 'Ankara'); 
+INSERT INTO insanlar4 VALUES(256789012, 'Mahmut','Bulut', 'Istanbul'); 
+INSERT INTO insanlar4 VALUES (344678901, 'Mine','Yasa', 'Ankara'); 
+INSERT INTO insanlar4 VALUES (345678901, 'Veli','Yilmaz', 'Istanbul');
+
+--Insanlar tablosundaki tum kayitlari isimler Natural sirali, Soyisimler ters sirali olarak listeleyin
+SELECT * FROM insanlar4 ORDER BY isim ASC,soyisim DESC;
+
+--Insanlar tablosundaki soyismi Bulut olanlari isim sirali olarak listeleyin
+select * from insanlar4 where soyisim='Bulut' order by 2;
+
+--İsim ve soyisim değerlerini soyisim kelime uzunluklarına göre sıralayınız
+select isim,soyisim from insanlar4 order by length(soyisim);
+
+--Tüm isim ve soyisim değerlerini aynı sutunda çağırarak her bir sütun değerini uzunluğuna göre sıralayınız
+select concat(isim,' ',soyisim)  as isim_soyisim from insanlar4 order by length(isim)+length(soyisim);
+
+
+
+
+-----GROUP BY CLAUSE
+
+CREATE TABLE manav1
+(
+isim varchar(50), 
+Urun_adi varchar(50), 
+Urun_miktar int
+);
+
+INSERT INTO manav1 VALUES( 'Ali', 'Elma', 5);
+INSERT INTO manav1 VALUES( 'Ayse', 'Armut', 3);
+INSERT INTO manav1 VALUES( 'Veli', 'Elma', 2); 
+INSERT INTO manav1 VALUES( 'Hasan', 'Uzum', 4); 
+INSERT INTO manav1 VALUES( 'Ali', 'Armut', 2); 
+INSERT INTO manav1 VALUES( 'Ayse', 'Elma', 3); 
+INSERT INTO manav1 VALUES( 'Veli', 'Uzum', 5); 
+INSERT INTO manav1 VALUES( 'Ali', 'Armut', 2); 
+INSERT INTO manav1 VALUES( 'Veli', 'Elma', 3); 
+INSERT INTO manav1 VALUES( 'Ayse', 'Uzum', 2);
+
+-- Isme gore alinan toplam urunleri bulun
+
+--
+--
+--
+--
+--
+--
+
+
+
+-----HAVING CLAUSE
+
+--
+--
+--
+--
+--
+--
+
+
+-------UNION
+--
+--
+--
+--
+--
+CREATE TABLE personel14
+(
+id int,
+isim varchar(50),  sehir varchar(50),  maas int,  
+sirket varchar(20)
+	CONSTRAINT personel14_pk PRIMARY KEY(id)
+);
+
+INSERT INTO personel14 VALUES(123456789, 'Ali Yilmaz', 'Istanbul', 5500, 'Honda');  
+INSERT INTO personel14 VALUES(234567890, 'Veli Sahin', 'Istanbul', 4500, 'Toyota');  
+INSERT INTO personel14 VALUES(345678901, 'Mehmet Ozturk', 'Ankara', 3500, 'Honda');  
+INSERT INTO personel14 VALUES(456789012, 'Mehmet Ozturk', 'Izmir', 6000, 'Ford');  
+INSERT INTO personel14 VALUES(567890123, 'Mehmet Ozturk', 'Ankara', 7000, 'Tofas');  
+INSERT INTO personel14 VALUES(456789014, 'Veli Sahin', 'Ankara', 4500, 'Ford');  
+INSERT INTO personel14 VALUES(123456710, 'Hatice Sahin', 'Bursa', 4500, 'Honda');
+
+	
+CREATE TABLE personel_bilgi14  (
+id int,
+tel char(10) UNIQUE ,  
+cocuk_sayisi int,
+CONSTRAINT personel_bilgi14_fk FOREIGN KEY (id) REFERENCES personel14(id)
+);
+INSERT INTO personel_bilgi14 VALUES(123456789, '5302345678', 5);  
+INSERT INTO personel_bilgi14 VALUES(234567890, '5422345678', 4);
+INSERT INTO personel_bilgi14 VALUES(345678901, '5354561245', 3);
+INSERT INTO personel_bilgi14 VALUES(456789012, '5411452659', 3);
+INSERT INTO personel_bilgi14 VALUES(567890123, '5551253698', 2);
+INSERT INTO personel_bilgi14 VALUES(456789014, '5524578574', 2);
+INSERT INTO personel_bilgi14 VALUES(123456710, '5537488585', 1);
+
+
+select * from personel14
+
+select * from personel_bilgi14
+
+
+--id’si 12345678 olan personelin Personel tablosundan sehir ve maasini, personel_bilgi 
+--tablosundan da tel ve cocuk sayisini yazdirin
+select sehir as sehir_veya_tel,maas  as cocuk_sayisi_veya_maas from personel14 where id='123456789'
+union
+select tel,cocuk_sayisi from personel_bilgi14  where id='123456789'
+
+--1) Personel tablosundada maasi 5000’den az olan tum isimleri ve maaslari bulunuz
+
+select isim, maas from personel14 where maas<5000
+
+
+select isim,maas from personel14 where maas<5000
+union
+select isim,maas from personel14 where maas<5000
+
+--2) Ayni sorguyu UNION ile iki kere yazarak calistirin
+select sehir,maas from personel14 where maas<5000
+union
+select sehir,maas from personel14 where maas<5000
+
+
+-- Ayni sorguyu UNION ALL ile iki kere yazarak calistirin
+SELECT sehir,maas FROM personel WHERE maas<5000;
+UNION ALL
+SELECT sehir,maas FROM personel WHERE maas<5000;
+
+
+--1) Tabloda personel maasi 4000’den cok olan tum sehirleri ve maaslari yazdirin
+select sehir,maas from personel14 where maas>4000
+
+--2) Tabloda personel maasi 5000’den az olan tum isimleri ve maaslari yazdirin
+select isim,maas from personel14 where maas<5000
+
+--3) Iki sorguyu UNION ve UNION ALL ile birlestirin
+select sehir as sehir_isim,maas  from personel14 where maas>4000
+union 
+select isim,maas from personel14 where maas<5000
+
+
+
+-------------INTERSECT
+
+--1) Personel tablosundan Istanbul veya Ankara’da calisanlarin id’lerini yazdir
+select id from personel14 where sehir in ('Istanbul','Ankara')
+
+--2) Personel_bilgi tablosundan 2 veya 3 cocugu olanlarin id lerini yazdirin
+select id from personel_bilgi14 where cocuk_sayisi in(2,3)
+
+--3) Iki sorguyu INTERSECT ile birlestirin
+select id from personel14 where sehir in ('Istanbul','Ankara')
+intersect
+select id from personel_bilgi14 where cocuk_sayisi in(2,3)
+
+--1) Maasi 4800’den az olanlar veya 5000’den cok olanlarin id’lerini listeleyin
+select id from personel14 where maas not between 4800 and 5000
+intersect
+select id from personel_bilgi14 where cocuk_sayisi in (2,3) ----2) Personel_bilgi tablosundan 2 veya 3 cocugu olanlarin id lerini yazdirin
+
+
+--3) Honda,Ford ve Tofas’ta calisan ortak isimde personel varsa listeleyin
+select isim from personel14 where sirket='Honda'
+intersect
+select isim from personel14 where sirket='Ford'
+intersect
+select isim from personel14 where sirket='Tofas'
+
+
+----------EXCEPT
+
+--1) 5000’den az maas alip Honda’da calismayanlari yazdirin
+select isim from personel14 where maas<5000
+except
+select isim from personel14 where sirket='Honda'
+
+--2) Ismi Mehmet Ozturk olup Istanbul’da calismayanlarin isimlerini ve sehirlerini listeleyin
+select isim,sehir from personel14 where isim='Mehmet Ozturk'
+except
+select isim,sehir from personel14 where sehir='Istanbul'
+
+
+
+--------JOINS
+
+CREATE TABLE sirketler12 
+(
+sirket_id int, 
+sirket_isim varchar(20)
+);
+
+INSERT INTO sirketler12 VALUES(100, 'Toyota'); 
+INSERT INTO sirketler12 VALUES(101, 'Honda'); 
+INSERT INTO sirketler12 VALUES(102, 'Ford'); 
+INSERT INTO sirketler12 VALUES(103, 'Hyundai');
+
+CREATE TABLE siparisler12 
+(
+siparis_id int, 
+sirket_id int, 
+siparis_tarihi date
+);
+
+INSERT INTO siparisler12 VALUES(11, 101,'17-Apr-2020');
+INSERT INTO siparisler12 VALUES(22, 102,'18-Apr-2020');
+INSERT INTO siparisler12 VALUES(33, 103,'19-Apr-2020');
+INSERT INTO siparisler12 VALUES(44, 104,'20-Apr-2020');
+INSERT INTO siparisler12 VALUES(55, 105,'21-Apr-2020');
+
+--SORU) Iki Tabloda sirket_id’si ayni olanlarin sirket_ismi, siparis_id ve
+--siparis_tarihleri ile yeni bir tablo olusturun
+select sirketler12.sirket_isim,siparisler12.siparis_id,siparisler12.siparis_tarihi 
+from sirketler12 inner join siparisler12 on sirketler12.sirket_id=siparisler12.sirket_id
+
+select * from sirketler12
+select *  from siparisler12
+
+select sirketler12.sirket_isim,siparisler12.siparis_id,siparisler12.siparis_tarihi 
+from sirketler12 left join siparisler12 on sirketler12.sirket_id=siparisler12.sirket_id
+
+
+select sirketler12.sirket_isim,siparisler12.siparis_id,siparisler12.siparis_tarihi 
+from sirketler12 right join siparisler12 on sirketler12.sirket_id=siparisler12.sirket_id
+
+select sirketler12.sirket_isim,siparisler12.siparis_id,siparisler12.siparis_tarihi 
+from sirketler12 full join siparisler12 on sirketler12.sirket_id=siparisler12.sirket_id
+
+
+-------SELF JOIN
+CREATE TABLE personel22 
+(
+id int,
+isim varchar(20), 
+title varchar(60), 
+yonetici_id int
+);
+
+
+INSERT INTO personel22 VALUES(1, 'Ali Can', 'SDET', 2);
+INSERT INTO personel22 VALUES(2, 'Veli Cem', 'QA', 3);
+INSERT INTO personel22 VALUES(3, 'Ayse Gul', 'QA Lead', 4); 
+INSERT INTO personel22 VALUES(4, 'Fatma Can', 'CEO', 5);
+
+
+--Her personelin yanina yonetici ismini yazdiran bir tablo olusturun
+select p1.isim as personel_isim,p2.isim as yönetici_isim from personel22 p1 inner join personel22 p2 on p1.yonetici_id =p2.id
+
+
 
 
 
