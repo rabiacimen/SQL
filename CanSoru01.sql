@@ -57,9 +57,87 @@ Select FirstName,LastName ,(Select SUM(Value_$) from payments
 Where Employee.Employee_ID=Payments.Employee_ID) 
 as toplam_tutar 
 from Employee
+
+
 --cevap:2
 
 SELECT* FROM employee WHERE FirstName LIKE 'J%';
 
 DELETE FROM employee
 DELETE FROM payments
+
+
+-------------------------------------------------------------------------------------------------------------------
+create table family_members
+(
+id int,
+name varchar(15),
+gender varchar(10),
+species varchar(10),
+num_book_read int	
+);
+
+INSERT INTO family_members VALUES (1,'Dave','male','human',200);
+INSERT INTO family_members VALUES (2,'Mary','female','human',180);
+INSERT INTO family_members VALUES (3,'Pickles','male','dog',0);
+
+
+--1-Tüm verileri tek bir tabloda gösteren query yazın
+select * from family_members
+
+--2-name and species sütunlarını gösteren query yazın.
+
+select name,species from family_members;
+
+--3-dog a ait tüm satırları döndüren query yazın.
+select * from family_members where species='dog';
+
+--4- num_books_read değeri 190'dan büyük olan 
+--aile üyelerine a ait tüm satırları döndüren query yazın.
+select * from family_members where num_book_read>190;
+
+------------------------
+
+
+create table character1
+(
+_id int,
+_name varchar(20)
+);
+
+INSERT INTO character1 VALUES (1,'Doogie Howser');
+INSERT INTO character1 VALUES (2,'Barney Stinson');
+INSERT INTO character1 VALUES (3,'Lily Aldrin');
+INSERT INTO character1 VALUES (4,'Willow Rosenberg');
+
+
+create table character1_tv_show
+(
+_id int,
+character1_id int,
+tv_show_name varchar(30)
+);
+
+INSERT INTO character1_tv_show VALUES (1,4,'Buffey the Vampire Slayer');
+INSERT INTO character1_tv_show VALUES (2,3,'How I meet your mother');
+INSERT INTO character1_tv_show VALUES (3,2,'How I meet your mother');
+INSERT INTO character1_tv_show VALUES (4,1,'Doogie Howser,M.D');
+
+
+
+create table character1_actor
+(
+_id int,
+character_id int,
+actor_name varchar(20)
+);
+
+INSERT INTO character1_actor VALUES (1,4,'Alyson Hannigan');
+INSERT INTO character1_actor VALUES (2,3,'Alyson Hannigan');
+INSERT INTO character1_actor VALUES (3,2,'Neil Patrick Harris');
+INSERT INTO character1_actor VALUES (4,1,'Neil Patrick Harris');
+
+
+--5- Her character adını onları oynayan actor eşleştirmek için inner join kullanarak query yazın.
+select _name, actor_name from character1 
+inner join character1_actor on character1_actor._id= character1._id;

@@ -762,9 +762,62 @@ INSERT INTO personel22 VALUES(4, 'Fatma Can', 'CEO', 5);
 --Her personelin yanina yonetici ismini yazdiran bir tablo olusturun
 select p1.isim as personel_isim,p2.isim as yönetici_isim from personel22 p1 inner join personel22 p2 on p1.yonetici_id =p2.id
 
+--
+--
+--
+-------ALTER TABLE STATEMENT
+
+CREATE TABLE personel11
+(
+id int,
+isim varchar(50), 
+sehir varchar(50), 
+maas int, 
+sirket varchar(20),
+CONSTRAINT personel11_pk PRIMARY KEY (id)
+);
+
+INSERT INTO personel11 VALUES(123456789, 'Ali Yilmaz', 'Istanbul', 5500, 'Honda'); 
+INSERT INTO personel11 VALUES(234567890, 'Veli Sahin', 'Istanbul', 4500, 'Toyota'); 
+INSERT INTO personel11 VALUES(345678901, 'Mehmet Ozturk', 'Ankara', 3500, 'Honda'); 
+INSERT INTO personel11 VALUES(456789012, 'Mehmet Ozturk', 'Izmir', 6000, 'Ford'); 
+INSERT INTO personel11 VALUES(567890123, 'Mehmet Ozturk', 'Ankara', 7000, 'Tofas'); 
+INSERT INTO personel11 VALUES(456715012, 'Veli Sahin', 'Ankara', 4500, 'Ford'); 
+INSERT INTO personel11 VALUES(123456710, 'Hatice Sahin', 'Bursa', 4500, 'Honda');
+
+
+select * from personel11
+--tabloya default değer ile field ekleyiniz.
+alter  table personel11 add ulke_ısmı varchar(20) default 'Turkiye';
+
+--tabloya yas ve cinsiyet field'ları ekleyiniz.
+alter table personel11 add yas int, add cinsiyet varchar(10);
+
+--yas sutununu siliniz.
+alter table personel11 drop column yas;
+
+--ulke_isim sutun adını ulke_adi olarak değiştirniz.
+alter table personel11 rename ulke_ısmı to ulke_adi;
+
+--tablonun ismini isciler11 olarak değiştiriniz
+alter table personel11 rename to isciler11;
+
+
+select * from isciler11;
+
+alter table isciler11 alter column ulke_adi type varchar(30),
+alter column ulke_adi set not null;
+
+alter table isciler11 alter column ulke_adi type varchar(50),
+alter column ulke_adi set  not null;
+
+
+--string data tipini numeric data tipine dönüştürnüz.
+alter table isciler11 alter column sehir type int using(sehir::int);--------?
 
 
 
+------TRANSACTION
 
 
 
